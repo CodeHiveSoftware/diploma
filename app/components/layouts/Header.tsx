@@ -29,7 +29,7 @@ const Header = () => {
         <header className={`flex ${logged ? 'justify-between' : 'justify-center'} items-center px-2 py-2 bg-white/45`}>
             <div className="flex items-center gap-1">
                 <AiOutlineQrcode color="red" className="opacity-60" size="40" />
-                <h4 className="text-black text-xl">parkEZ</h4>
+                <h4 className="text-black text-xl">ParkEase</h4>
             </div>
             {logged && (
                 <>

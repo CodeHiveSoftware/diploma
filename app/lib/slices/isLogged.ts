@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 type isLoggedState = boolean;
 
-let initialState: isLoggedState = true;
+let initialState: isLoggedState = false;
 
 const isLoggedSlice = createSlice({
     name: 'isLogged',

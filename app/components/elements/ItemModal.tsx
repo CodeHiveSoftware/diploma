@@ -28,7 +28,7 @@ const ItemModal: React.FC<ModalProps> = ({ isVisible, onClose, ticketDetails }) 
         const randomDigits = () => `${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`;
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const randomLetter = letters.charAt(Math.floor(Math.random() * letters.length));
-        const generatedCarPlate = `${randomPrefix} ${randomDigits()} ${randomLetter}`;
+        const generatedCarPlate = `${randomPrefix}${randomDigits()}${randomLetter}`;
         setCarPlate(generatedCarPlate);
 
         dispatch(reserveParkingItem(ticketDetails.id));
