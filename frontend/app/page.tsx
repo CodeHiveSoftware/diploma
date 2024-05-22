@@ -1,5 +1,5 @@
 'use client'
-import ParkItemsList from "@/app/components/elements/ParkItemsList";
+import ParkItemsList from "./components/elements/ParkItemsList";
 
 import {useSelector} from "react-redux";
 import {selectIsLogged} from "@/app/lib/slices/isLogged";
