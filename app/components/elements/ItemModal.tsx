@@ -13,7 +13,7 @@ type ModalProps = {
     };
 };
 
-const ItemModal: React.FC<ModalProps> = ({ isVisible, onClose, ticketDetails }) => {
+const ItemModal: React.FC<ModalProps> = ({ isVisible, onClose, ticketDetails }: ModalProps) => {
     const dispatch = useDispatch();
     const [isReserved, setIsReserved] = useState(ticketDetails.isReserved);
     const [carPlate, setCarPlate] = useState('');
@@ -30,7 +30,6 @@ const ItemModal: React.FC<ModalProps> = ({ isVisible, onClose, ticketDetails }) 
         const randomLetter = letters.charAt(Math.floor(Math.random() * letters.length));
         const generatedCarPlate = `${randomPrefix}${randomDigits()}${randomLetter}`;
         setCarPlate(generatedCarPlate);
-
         dispatch(reserveParkingItem(ticketDetails.id));
         setIsReserved(true);
     };
