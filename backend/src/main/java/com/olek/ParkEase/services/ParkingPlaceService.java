@@ -13,7 +13,10 @@ public class ParkingPlaceService {
     private final ParkingPlaceRepo parkingPlaceRepo;
 
     public List<ParkingPlace> getAllParkingPlaces() {
-        return parkingPlaceRepo.findAll();
+        List<ParkingPlace> allParkingPlaces =  parkingPlaceRepo.findAll();
+        allParkingPlaces.forEach(parkingPlace -> parkingPlace.getParkingReservations().removeIf(parkingReservation -> !parkingReservation.getIsActual()));
+        return allParkingPlaces;
+
     }
 
 }

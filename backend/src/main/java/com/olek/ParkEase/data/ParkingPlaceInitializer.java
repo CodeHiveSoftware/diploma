@@ -14,7 +14,7 @@ public class ParkingPlaceInitializer {
         if (parkingPlaceRepo.findAll().size() == 30) {
 
         } else {
-            for (int i = 0; i <= 30; i++) {
+            for (int i = 1; i <= 30; i++) {
                 ParkingPlace parkingPlace = new ParkingPlace();
                 parkingPlace.setId(i);
                 if (parkingPlaceRepo.findById((long) i).isEmpty()){
