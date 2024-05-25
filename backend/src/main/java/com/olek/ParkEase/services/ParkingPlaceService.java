@@ -43,7 +43,7 @@ public class ParkingPlaceService {
         });
     }
 
-    public ParkingReservation dtoToParkingReservation(ParkingReservationDto parkingReservationDto, ParkingPlace parkingPlace) {
+    private ParkingReservation dtoToParkingReservation(ParkingReservationDto parkingReservationDto, ParkingPlace parkingPlace) {
         ParkingReservation parkingReservation = new ParkingReservation();
         parkingReservation.setCarPlate(parkingReservationDto.getCarPlate());
         parkingReservation.setParkingTicket(parkingReservationDto.getParkingTicket());
@@ -58,5 +58,10 @@ public class ParkingPlaceService {
     public ParkingReservation getActualParkingPlace( long placeId) {
         ParkingPlace parkingPlace = parkingPlaceRepo.findById(placeId).orElseThrow();
         return parkingPlace.getParkingReservations().stream().filter(ParkingReservation::getIsActual).findFirst().orElse(null);
+    }
+
+    public Long getReservedCount() {
+        Long reservedCount = parkingPlaceRepo.findAll().stream().map(ParkingPlace::getParkingReservations).flatMap(List::stream).filter(ParkingReservation::getIsActual).count();
+        return reservedCount;
     }
 }

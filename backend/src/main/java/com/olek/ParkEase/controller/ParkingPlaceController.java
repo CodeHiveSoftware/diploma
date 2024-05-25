@@ -39,4 +39,9 @@ public class ParkingPlaceController {
         return ResponseEntity.ok(parkingPlaceService.getActualParkingPlace(id));
     }
 
+    @GetMapping("/getReservedCount")
+    public ResponseEntity<Long> getReservedCount() {
+        return ResponseEntity.ok(parkingPlaceService.getReservedCount());
+    }
+
 }

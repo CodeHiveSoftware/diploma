@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { reserveParkingItem, unreserveParkingItem } from '@/app/lib/slices/parkingSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {reserveParkingItem, selectReservedParkingItems, unreserveParkingItem} from '@/app/lib/slices/parkingSlice';
 
 type ModalProps = {
     isVisible: boolean;
@@ -66,7 +66,6 @@ const ItemModal: React.FC<ModalProps> = ({ isVisible, onClose, ticketDetails }: 
 				console.log('Success:', response);
 			}}).then(() => {
 				dispatch(unreserveParkingItem(ticketDetails.id));
-				
 			})
 			.catch((error) => {
 				console.error('Error:', error);
@@ -78,6 +77,8 @@ const ItemModal: React.FC<ModalProps> = ({ isVisible, onClose, ticketDetails }: 
 		
 		onClose();
 	};
+
+    console.log(useSelector(selectReservedParkingItems).length);
 
 	if (!isVisible) return null;
 
