@@ -42,23 +42,40 @@ const ItemModal: React.FC<ModalProps> = ({ isVisible, onClose, ticketDetails }: 
 			}),
 		}
 		)
-			.then((response) => response.json())
-			.then((data) => {
-				console.log('Success:', data);
+			.then((response) => {if (response.ok) {
+				console.log('Success:', response);
 			}
-			)
-			.catch((error) => {
+			})
+			.then(() =>{
+				dispatch(reserveParkingItem(ticketDetails.id));
+			}).catch((error) => {
 				console.error('Error:', error);
 			});
 		setCarPlate(generatedCarPlate);
-		dispatch(reserveParkingItem(ticketDetails.id));
 		setIsReserved(true);
 	};
 
 	const handleUnreserve = () => {
-		dispatch(unreserveParkingItem(ticketDetails.id));
+		fetch('http://localhost:8080/api/parking-place/unreserve/' + ticketDetails.id, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+			.then((response) => {if (response.ok) {
+				console.log('Success:', response);
+			}}).then(() => {
+				dispatch(unreserveParkingItem(ticketDetails.id));
+				
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
 		setIsReserved(false);
 		setCarPlate('');
+
+
+		
 		onClose();
 	};
 

@@ -1,16 +1,16 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 type isLoggedState = boolean;
 
-let initialState: isLoggedState = false;
+const initialState: isLoggedState = localStorage.getItem('isLogged') === 'true' ? true : false;
 
 const isLoggedSlice = createSlice({
-    name: 'isLogged',
-    initialState,
-    reducers: {
-        login: (state) => true,
-        logout: (state) => false
-    }
+	name: 'isLogged',
+	initialState,
+	reducers: {
+		login: (state) => true,
+		logout: (state) => false
+	}
 });
 
 export const {login,logout} = isLoggedSlice.actions;

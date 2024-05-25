@@ -4,7 +4,7 @@ import ParkItem, { ParkItemProps } from '@/app/components/elements/ParkItem';
 import Arrow from '@/app/components/elements/Arrow';
 import Modal from '@/app/components/elements/ItemModal';
 import { useSelector } from 'react-redux';
-import { selectParkingItems } from '@/app/lib/slices/parkingSlice';
+import {selectReservedParkingItems} from '@/app/lib/slices/parkingSlice';
 
 const ParkItemsList = () => {
 	// const parkItems = useSelector(selectParkingItems);
@@ -12,7 +12,7 @@ const ParkItemsList = () => {
 	const [parkItems, setParkItems] = useState<ParkItemProps[]>([]);
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [selectedItem, setSelectedItem] = useState<{ id: number, randomNumber: number, date: string, isReserved: boolean, carPlate?: string } | null>(null);
-
+    const reservedPlaces = useSelector(selectReservedParkingItems);
 	const handleItemClick = (id: number, isReserved: boolean) => {
 		if (!isReserved) {
 			const randomNumber = Math.floor(Math.random() * 1000000);
@@ -39,7 +39,6 @@ const ParkItemsList = () => {
 				});
 
 		}
-		// setSelectedItem({id, randomNumber: 0, date: '', isReserved});
 		setIsModalVisible(true);
 
 
@@ -74,7 +73,7 @@ const ParkItemsList = () => {
 			.catch((error) => {
 				console.error('Error:', error);
 			});
-	}, []);
+	}, [ reservedPlaces.length ]);
     
 	console.log ('PARK ITEMS', parkItems);
 	return (
