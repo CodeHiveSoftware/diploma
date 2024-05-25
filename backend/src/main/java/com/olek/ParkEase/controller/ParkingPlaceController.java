@@ -1,7 +1,9 @@
 package com.olek.ParkEase.controller;
 
 import com.olek.ParkEase.data.ParkingPlace;
+import com.olek.ParkEase.data.ParkingReservation;
 import com.olek.ParkEase.dto.ParkingReservationDto;
+import com.olek.ParkEase.repo.ParkingPlaceRepo;
 import com.olek.ParkEase.services.ParkingPlaceService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,11 @@ public class ParkingPlaceController {
     public ResponseEntity<String> unreserveParkingPlace(@PathVariable long id) {
         parkingPlaceService.unreserveParkingPlace(id);
         return ResponseEntity.ok("Parking place unreserved");
+    }
+
+    @GetMapping("/getActual/{id}")
+    public ResponseEntity<ParkingReservation> getActualParkingPlaces(@PathVariable long id) {
+        return ResponseEntity.ok(parkingPlaceService.getActualParkingPlace(id));
     }
 
 }

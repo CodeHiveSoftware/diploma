@@ -11,14 +11,40 @@ const ParkItemsList = () => {
 
 	const [parkItems, setParkItems] = useState<ParkItemProps[]>([]);
 	const [isModalVisible, setIsModalVisible] = useState(false);
-	const [selectedItem, setSelectedItem] = useState<{ id: number, randomNumber: number, date: string, isReserved: boolean } | null>(null);
+	const [selectedItem, setSelectedItem] = useState<{ id: number, randomNumber: number, date: string, isReserved: boolean, carPlate?: string } | null>(null);
 
 	const handleItemClick = (id: number, isReserved: boolean) => {
-		const randomNumber = Math.floor(Math.random() * 1000000);
-		const date = new Date().toLocaleString();
-		setSelectedItem({ id, randomNumber, date, isReserved });
+		if (!isReserved) {
+			const randomNumber = Math.floor(Math.random() * 1000000);
+			const date = new Date().toLocaleString();
+
+            
+			setSelectedItem({id, randomNumber, date, isReserved});
+
+			setIsModalVisible(true);
+		} else if (isReserved) {
+			fetch('http://localhost:8080/api/parking-place/getActual/' + id, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					const formattedDate = new Date(data.parkingStart).toLocaleString();
+					setSelectedItem({id, randomNumber: data.parkingTicket, date: formattedDate, carPlate:data.carPlate, isReserved});
+				})
+				.catch((error) => {
+					console.error('Error:', error);
+				});
+
+		}
+		// setSelectedItem({id, randomNumber: 0, date: '', isReserved});
 		setIsModalVisible(true);
+
+
 	};
+        
 
 	const handleCloseModal = () => {
 		setIsModalVisible(false);

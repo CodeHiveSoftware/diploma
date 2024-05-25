@@ -10,6 +10,7 @@ type ModalProps = {
         randomNumber: number;
         date: string;
         isReserved: boolean;
+        carPlate?: string;
     };
 };
 
@@ -29,6 +30,26 @@ const ItemModal: React.FC<ModalProps> = ({ isVisible, onClose, ticketDetails }: 
 		const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		const randomLetter = letters.charAt(Math.floor(Math.random() * letters.length));
 		const generatedCarPlate = `${randomPrefix}${randomDigits()}${randomLetter}`;
+		fetch('http://localhost:8080/api/parking-place/reserve/' + ticketDetails.id, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				carPlate: generatedCarPlate,
+				parkingTicket: randomDigits(),
+				parkingStart: ticketDetails.date,
+			}),
+		}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				console.log('Success:', data);
+			}
+			)
+			.catch((error) => {
+				console.error('Error:', error);
+			});
 		setCarPlate(generatedCarPlate);
 		dispatch(reserveParkingItem(ticketDetails.id));
 		setIsReserved(true);
@@ -53,7 +74,7 @@ const ItemModal: React.FC<ModalProps> = ({ isVisible, onClose, ticketDetails }: 
 						<p>Place ID: {ticketDetails.id}</p>
 						<p>Bilet parkingowy: {ticketDetails.randomNumber}</p>
 						<p>Wjazd: {ticketDetails.date}</p>
-						<p>Car Plate: {carPlate}</p>
+						<p>Car Plate: {carPlate || ticketDetails.carPlate}</p>
 						<button className="mt-4 px-4 py-2 bg-black text-white rounded" onClick={handleUnreserve}>
                             Close Reserve
 						</button>

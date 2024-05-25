@@ -37,6 +37,7 @@ public class ParkingPlaceService {
         parkingPlace.getParkingReservations().forEach(parkingReservation -> {
             if (parkingReservation.getIsActual()) {
                 parkingReservation.setIsActual(false);
+                parkingReservation.setParkingEnd(LocalDateTime.now());
                 parkingReservationRepo.save(parkingReservation);
             }
         });
@@ -47,11 +48,15 @@ public class ParkingPlaceService {
         parkingReservation.setCarPlate(parkingReservationDto.getCarPlate());
         parkingReservation.setParkingTicket(parkingReservationDto.getParkingTicket());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm:ss");
-        LocalDateTime startDateTime = LocalDateTime.parse(parkingReservationDto.getParkingStart().trim(), formatter);
+        LocalDateTime startDateTime = LocalDateTime.parse(parkingReservationDto.getParkingStart(), formatter);
         parkingReservation.setParkingStart(startDateTime);
         parkingReservation.setParkingPlace(parkingPlace);
 
         return parkingReservation;
     }
 
+    public ParkingReservation getActualParkingPlace( long placeId) {
+        ParkingPlace parkingPlace = parkingPlaceRepo.findById(placeId).orElseThrow();
+        return parkingPlace.getParkingReservations().stream().filter(ParkingReservation::getIsActual).findFirst().orElse(null);
+    }
 }
