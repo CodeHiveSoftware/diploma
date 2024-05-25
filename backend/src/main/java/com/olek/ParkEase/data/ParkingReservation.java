@@ -1,5 +1,6 @@
 package com.olek.ParkEase.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,5 +21,6 @@ public class ParkingReservation {
     private Boolean isActual = true;
 
     @ManyToOne
+    @JsonIgnore
     private ParkingPlace parkingPlace;
 }
