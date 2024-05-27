@@ -9,6 +9,7 @@ import com.olek.ParkEase.repo.ParkingReservationRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -68,55 +69,50 @@ public class ParkingPlaceService {
         return reservedCount;
     }
 
-    public List <OverstayedDto> getOverstayedReservations() {
-        List <ParkingReservation> overstayedReservations = parkingReservationRepo.findAll()
+    public List<OverstayedDto> getOverstayedReservations() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        List<ParkingReservation> overstayedReservations = parkingReservationRepo.findAll()
                 .stream()
                 .filter(parkingReservation -> parkingReservation.getIsActual()
-                        & parkingReservation.getParkingEnd() == null
-                        & ((LocalDateTime.now().getDayOfMonth() - parkingReservation.getParkingStart().getDayOfMonth() == 0) ?
-                           (LocalDateTime.now().getHour() - parkingReservation.getParkingStart().getHour() >1) :
-                            (LocalDateTime.now().getDayOfMonth() - parkingReservation.getParkingStart().getDayOfMonth() == 1) ?
-                            (24 - parkingReservation.getParkingStart().getHour() + LocalDateTime.now().getHour() > 1) :
-                            (24 - parkingReservation.getParkingStart().getHour() + LocalDateTime.now().getHour() + 24 * (LocalDateTime.now().getDayOfMonth() - parkingReservation.getParkingStart().getDayOfMonth()) > 1)))
+                        && parkingReservation.getParkingEnd() == null
+                        && Duration.between(parkingReservation.getParkingStart(), currentDateTime).toHours() >= 1)
                 .toList();
-        System.out.println(overstayedReservations.size());
 
-        List <OverstayedDto> overstayedDtos = new ArrayList<>();
+
+        List<OverstayedDto> overstayedDtos = new ArrayList<>();
         for (ParkingReservation parkingReservation : overstayedReservations) {
-            HashMap <String, Short> overstayTime = getOverstayTime(parkingReservation);
+            HashMap<String, Short> overstayTime = getOverstayTime(parkingReservation);
             OverstayedDto overstayedDto = new OverstayedDto();
             overstayedDto.setPlate(parkingReservation.getCarPlate());
             overstayedDto.setPayment(calculatePrice(parkingReservation));
             overstayedDto.setOverstayTime(overstayTime);
             overstayedDtos.add(overstayedDto);
-
         }
         return overstayedDtos;
-
     }
 
-    private HashMap <String, Short> getOverstayTime(ParkingReservation parkingReservation) {
+    private HashMap<String, Short> getOverstayTime(ParkingReservation parkingReservation) {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime parkingStart = parkingReservation.getParkingStart();
+
         long hours;
-        if ( LocalDateTime.now().getDayOfMonth() == parkingReservation.getParkingStart().getDayOfMonth()) {
-            hours = LocalDateTime.now().getHour() - parkingReservation.getParkingStart().getHour();
-        } else if (LocalDateTime.now().getDayOfMonth() - parkingReservation.getParkingStart().getDayOfMonth() == 1) {
-            hours = 24 - parkingReservation.getParkingStart().getHour() + LocalDateTime.now().getHour();
-        } else {
-            hours = 24 - parkingReservation.getParkingStart().getHour() + LocalDateTime.now().getHour() + 24 * (LocalDateTime.now().getDayOfMonth() - parkingReservation.getParkingStart().getDayOfMonth());
-        }
         long minutes;
-        if (LocalDateTime.now().getMinute() > parkingReservation.getParkingStart().getMinute()){
-            minutes = LocalDateTime.now().getMinute() - parkingReservation.getParkingStart().getMinute();
+
+        if (currentDateTime.isAfter(parkingStart)) {
+            Duration duration = Duration.between(parkingStart, currentDateTime);
+            hours = duration.toHours();
+            minutes = duration.minusHours(hours).toMinutes();
         } else {
-            minutes = 60 - parkingReservation.getParkingStart().getMinute() + LocalDateTime.now().getMinute();
+            hours = 0;
+            minutes = 0;
         }
 
-
-        return new HashMap <String, Short>() {{
+        return new HashMap<String, Short>() {{
             put("hours", (short) hours);
             put("minutes", (short) minutes);
         }};
     }
+
 
     private Double calculatePrice(ParkingReservation parkingReservation) {
         HashMap <String, Short> overstayTime = getOverstayTime(parkingReservation);
@@ -124,5 +120,9 @@ public class ParkingPlaceService {
 
         return hours * 3.0;
 
+    }
+
+    public Integer getAllInLast3Hours() {
+        return (int) parkingReservationRepo.findAll().stream().filter(parkingReservation -> parkingReservation.getParkingStart().isAfter(LocalDateTime.now().minusHours(3))).count();
     }
 }

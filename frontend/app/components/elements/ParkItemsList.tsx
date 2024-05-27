@@ -70,6 +70,7 @@ const ParkItemsList = () => {
 				);
 
 				data.map( (item: { id: number, parkingReservations: [] }) => {
+					// @ts-ignore
 					if (item.parkingReservations.length > 0 && item.parkingReservations[0].isActual) {
 						dispatch(reserveParkingItem(item.id));
 					} else {

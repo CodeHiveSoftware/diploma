@@ -24,7 +24,8 @@ type CarInfo = {
 const currentTime =  new Date().toLocaleTimeString().substring(0, 5);
 const threeHoursAgo = new Date(new Date().getTime() - 3 * 60 * 60 * 1000).toLocaleTimeString().substring(0, 5);
 
-const Statistic = ({fromTime = threeHoursAgo, toTime = currentTime , amount = 20, onClick}: StatisticProps) => {
+const Statistic = ({fromTime = threeHoursAgo, toTime = currentTime , amount, onClick}: StatisticProps) => {
+	const [last3HoursInfo, setLast3HoursInfo] = useState<number>(0);
 	const [outdatedInfo, setOutdatedInfo] = useState<CarInfo[]>([]);
 	useEffect(() => {
 		fetch('http://localhost:8080/api/parking-place/getOverstayedReservations', {
@@ -41,7 +42,24 @@ const Statistic = ({fromTime = threeHoursAgo, toTime = currentTime , amount = 20
 				console.error('Error:', error);
 			});
 	}, []);
-    
+
+	useEffect(() => {
+		fetch('http://localhost:8080/api/parking-place/getAllInLast3Hours', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+			.then((response) => response.json())
+			.then((data: number) => {
+				setLast3HoursInfo(data);
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+	}
+	, []);
+	amount = last3HoursInfo;
 	return (
 		<div className="absolute w-[99vw] transition-all duration-300 flex flex-col gap-4 items-center justify-center top-[100%] h-screen z-10 bg-black/90">
 			<div className="relative bg-white p-4 rounded-md">

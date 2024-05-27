@@ -49,4 +49,9 @@ public class ParkingPlaceController {
     public ResponseEntity<List<OverstayedDto>> getOverstayedReservations() {
         return ResponseEntity.ok(parkingPlaceService.getOverstayedReservations());
     }
+
+    @GetMapping("/getAllInLast3Hours")
+    public ResponseEntity<Integer> getAllInLast3Hours() {
+        return ResponseEntity.ok(parkingPlaceService.getAllInLast3Hours());
+    }
 }
