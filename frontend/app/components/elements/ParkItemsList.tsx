@@ -3,8 +3,8 @@ import React, {useEffect, useState} from 'react';
 import ParkItem, { ParkItemProps } from '@/app/components/elements/ParkItem';
 import Arrow from '@/app/components/elements/Arrow';
 import Modal from '@/app/components/elements/ItemModal';
-import { useSelector } from 'react-redux';
-import {selectReservedParkingItems} from '@/app/lib/slices/parkingSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {reserveParkingItem, selectReservedParkingItems, unreserveParkingItem} from '@/app/lib/slices/parkingSlice';
 
 const ParkItemsList = () => {
 	// const parkItems = useSelector(selectParkingItems);
@@ -12,7 +12,8 @@ const ParkItemsList = () => {
 	const [parkItems, setParkItems] = useState<ParkItemProps[]>([]);
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [selectedItem, setSelectedItem] = useState<{ id: number, randomNumber: number, date: string, isReserved: boolean, carPlate?: string } | null>(null);
-    const reservedPlaces = useSelector(selectReservedParkingItems);
+	const reservedPlaces = useSelector(selectReservedParkingItems);
+	const dispatch = useDispatch();
 	const handleItemClick = (id: number, isReserved: boolean) => {
 		if (!isReserved) {
 			const randomNumber = Math.floor(Math.random() * 1000000);
@@ -67,8 +68,16 @@ const ParkItemsList = () => {
 						onClick: () => handleItemClick(item.id, item.parkingReservations.length > 0),
 					}))
 				);
-			}
-			)
+
+				data.map( (item: { id: number, parkingReservations: [] }) => {
+					if (item.parkingReservations.length > 0 && item.parkingReservations[0].isActual) {
+						dispatch(reserveParkingItem(item.id));
+					} else {
+						dispatch(unreserveParkingItem(item.id));
+					}
+                    
+				});
+			})
                     
 			.catch((error) => {
 				console.error('Error:', error);
