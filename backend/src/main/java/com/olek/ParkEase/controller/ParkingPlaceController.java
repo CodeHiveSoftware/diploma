@@ -2,6 +2,7 @@ package com.olek.ParkEase.controller;
 
 import com.olek.ParkEase.data.ParkingPlace;
 import com.olek.ParkEase.data.ParkingReservation;
+import com.olek.ParkEase.dto.OverstayedDto;
 import com.olek.ParkEase.dto.ParkingReservationDto;
 import com.olek.ParkEase.repo.ParkingPlaceRepo;
 import com.olek.ParkEase.services.ParkingPlaceService;
@@ -44,4 +45,8 @@ public class ParkingPlaceController {
         return ResponseEntity.ok(parkingPlaceService.getReservedCount());
     }
 
+    @GetMapping("/getOverstayedReservations")
+    public ResponseEntity<List<OverstayedDto>> getOverstayedReservations() {
+        return ResponseEntity.ok(parkingPlaceService.getOverstayedReservations());
+    }
 }
