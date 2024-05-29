@@ -1,7 +1,5 @@
 package com.olek.ParkEase.data;
 
-import com.olek.ParkEase.data.ParkingPlace;
-import com.olek.ParkEase.data.ParkingReservation;
 import com.olek.ParkEase.repo.ParkingPlaceRepo;
 import com.olek.ParkEase.repo.ParkingReservationRepo;
 import jakarta.annotation.PostConstruct;
