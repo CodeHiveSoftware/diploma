@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Park-Ease
 
-## Getting Started
+Parking admin dashboard for managing parking spaces and reservations.
 
-First, run the development server:
+## Installation
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Clone this repository:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   ```bash
+   git clone https://github.com/CodeHiveSoftware/diploma.git
+    ```
+   
+2. Install Docker if you haven't already:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   - [Docker Desktop for Windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows)
+   - [Docker Desktop for Mac](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
+   - [Docker Engine for Linux](https://docs.docker.com/engine/install/)
+   
+  If you have Docker installed, you can skip this step.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. Run the following command to start the development server:
 
-## Learn More
+   ```bash
+   docker-compose up
+   ```
+   or
+    ```bash
+   sudo docker-compose up
+   ```
+   
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
 
-To learn more about Next.js, take a look at the following resources:
+5. Login with the following credentials:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   - **Username:** admin
+   - **Password:** admin5454park
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+6. You can stop the development server by running the following command:
 
-## Deploy on Vercel
+   ```bash
+   docker-compose down
+   ```
+   or
+    ```bash
+   sudo docker-compose down
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Features
+
+- **Authentication:** Login and logout.
+- **Graphical Dashboard:** View available and reserved parking spaces, and the number of reservations.
+- **Parking Spaces:** Green for available, red for reserved.
+- **Reservations:** View all reservations, add new reservations, and close existing reservations.
+- **Statistics:** View statistics for the number of available and reserved parking spaces, number of cars parked in the last 3 hours, and the overstaying rate.
+
+## Tech Stack
+
+- **Frontend:** Next.js, React, Tailwind CSS, Redux Toolkit, pnpm as package manager
+- **Backend:** Java, Spring Boot, Spring Data JPA, PostgreSQL, Hibernate, Lombok
+- **Infrastructure:** Docker, Docker Compose
+
+  
+  
