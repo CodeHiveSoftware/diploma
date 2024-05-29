@@ -70,15 +70,16 @@ const ItemModal: React.FC<ModalProps> = ({ isVisible, onClose, ticketDetails }: 
 			.catch((error) => {
 				console.error('Error:', error);
 			});
-		setIsReserved(false);
 		setCarPlate('');
+		setIsReserved(false);
+
 
 
 		
 		onClose();
 	};
 
-    console.log(useSelector(selectReservedParkingItems).length);
+	console.log(useSelector(selectReservedParkingItems).length);
 
 	if (!isVisible) return null;
 

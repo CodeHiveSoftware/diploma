@@ -4,7 +4,7 @@ import ParkItem, { ParkItemProps } from '@/app/components/elements/ParkItem';
 import Arrow from '@/app/components/elements/Arrow';
 import Modal from '@/app/components/elements/ItemModal';
 import {useDispatch, useSelector} from 'react-redux';
-import {reserveParkingItem, selectReservedParkingItems, unreserveParkingItem} from '@/app/lib/slices/parkingSlice';
+import {selectReservedParkingItems, selectUnreservedParkingItems,} from '@/app/lib/slices/parkingSlice';
 
 const ParkItemsList = () => {
 	// const parkItems = useSelector(selectParkingItems);
@@ -13,7 +13,8 @@ const ParkItemsList = () => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [selectedItem, setSelectedItem] = useState<{ id: number, randomNumber: number, date: string, isReserved: boolean, carPlate?: string } | null>(null);
 	const reservedPlaces = useSelector(selectReservedParkingItems);
-	const dispatch = useDispatch();
+    const unreservedPlaces = useSelector(selectUnreservedParkingItems);
+
 	const handleItemClick = (id: number, isReserved: boolean) => {
 		if (!isReserved) {
 			const randomNumber = Math.floor(Math.random() * 1000000);
@@ -52,6 +53,7 @@ const ParkItemsList = () => {
 	};
 
 	useEffect(() => {
+		console.log('Fetching all parking places');
 		fetch('http://localhost:8080/api/parking-place/all' , {
 			method: 'GET',
 			headers: {
@@ -68,22 +70,12 @@ const ParkItemsList = () => {
 						onClick: () => handleItemClick(item.id, item.parkingReservations.length > 0),
 					}))
 				);
-
-				data.map( (item: { id: number, parkingReservations: [] }) => {
-					// @ts-ignore
-					if (item.parkingReservations.length > 0 && item.parkingReservations[0].isActual) {
-						dispatch(reserveParkingItem(item.id));
-					} else {
-						dispatch(unreserveParkingItem(item.id));
-					}
-                    
-				});
 			})
                     
 			.catch((error) => {
 				console.error('Error:', error);
 			});
-	}, [ reservedPlaces.length ]);
+	}, [ reservedPlaces.length , unreservedPlaces.length ]);
     
 	console.log ('PARK ITEMS', parkItems);
 	return (

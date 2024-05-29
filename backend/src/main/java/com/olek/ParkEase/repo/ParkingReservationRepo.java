@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ParkingReservationRepo extends JpaRepository<ParkingReservation, Long> {
+
+    boolean existsByParkingTicket(Long parkingTicket);
 }

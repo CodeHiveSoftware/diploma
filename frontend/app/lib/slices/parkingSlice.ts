@@ -9,6 +9,7 @@ type ParkingItem = {
 type ParkingState = {
     items: ParkingItem[];
     reserved: ParkingItem[];
+    unreserved: ParkingItem[];
     overdue: ParkingItem[];
 };
 
@@ -46,6 +47,7 @@ const initialState: ParkingState = {
 		{ id: 30, isReserved: false },
 	],
 	reserved: [],
+    unreserved: [],
 	overdue: [],
 };
 
@@ -64,7 +66,7 @@ export const parkingSlice = createSlice({
 			const item = state.items.find(item => item.id === action.payload);
 			if (item) {
 				item.isReserved = false;
-				state.reserved = state.reserved.filter(item => item.id !== action.payload);
+				state.unreserved.push(item);
 			}
 		},
 		markParkingItemAsOverdue: (state, action: PayloadAction<number>) => {
@@ -81,5 +83,6 @@ export const { reserveParkingItem, unreserveParkingItem, markParkingItemAsOverdu
 
 export const selectParkingItems = (state: { parking: ParkingState }) => state.parking.items;
 export const selectReservedParkingItems = (state: { parking: ParkingState }) => state.parking.reserved;
+export const selectUnreservedParkingItems = (state: { parking: ParkingState }) => state.parking.unreserved;
 
 export default parkingSlice.reducer;
