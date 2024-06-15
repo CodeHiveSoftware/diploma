@@ -79,7 +79,7 @@ const ParkItemsList = () => {
     
 	console.log ('PARK ITEMS', parkItems);
 	return (
-		<div className="w-full h-full bg-black/75 flex flex-col">
+		<div className="w-full h-full bg-black/75 min-h-screen flex flex-col">
 			<div className="flex justify-around items-center">
 				<Arrow direction="flex-row" height="h-[2px]" width="w-8" rotate="rotate(-45deg)" />
 				<Arrow direction="flex-row" height="h-[2px]" width="w-8" rotate="rotate(-45deg)" />

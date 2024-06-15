@@ -8,7 +8,7 @@ import Authorize from "@/app/components/layouts/Authorize";
 export default function Home() {
     const logged = useSelector(selectIsLogged);
   return (
-  <section className='h-[96vh] w-full'>
+  <section className='h-full min-h-[96vh] w-full'>
       { logged ?
       <ParkItemsList/>
           : <Authorize/>
