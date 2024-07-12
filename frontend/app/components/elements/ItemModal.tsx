@@ -89,18 +89,18 @@ const ItemModal: React.FC<ModalProps> = ({ isVisible, onClose, ticketDetails }: 
 
 				{isReserved ? (
 					<>
-						<h2 className="text-lg font-bold mb-4">Ticket Details</h2>
-						<p>Place ID: {ticketDetails.id}</p>
+						<h2 className="text-lg font-bold mb-4">Szczegóły biletu</h2>
+						<p>Miejsce ID:{ticketDetails.id}</p>
 						<p>Bilet parkingowy: {ticketDetails.randomNumber}</p>
 						<p>Wjazd: {ticketDetails.date}</p>
-						<p>Car Plate: {carPlate || ticketDetails.carPlate}</p>
+						<p>Nr. pojazdu: {carPlate || ticketDetails.carPlate}</p>
 						<button className="mt-4 px-4 py-2 bg-black text-white rounded" onClick={handleUnreserve}>
-                            Close Reserve
+                            Zamknąć rezerwację
 						</button>
 					</>
 				) : (
 					<button className="mt-4 px-4 py-2 bg-green-500 text- rounded" onClick={handleReserve}>
-                        Order Place
+                       Cofnij
 					</button>
 				)}
 				<button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded" onClick={onClose}>

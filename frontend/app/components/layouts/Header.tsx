@@ -55,12 +55,12 @@ const Header = () => {
 			{logged && (
 				<>
 					<div className="flex items-center gap-10">
-						<span className="text-lg text-black font-bold">Reserved: <strong className="text-red text-xl">{reservedPlaces}</strong></span>
-						<span className="text-lg text-black font-bold">Available: <strong className="text-green-600 text-xl">{availablePlaces}</strong></span>
+						<span className="text-lg text-black font-bold">Zarezerwowane: <strong className="text-red text-xl">{reservedPlaces}</strong></span>
+						<span className="text-lg text-black font-bold">Dostępne: <strong className="text-green-600 text-xl">{availablePlaces}</strong></span>
 					</div>
 					<div className="flex items-center gap-2">
-						<Button title="Log out" onClick={handleLogout} />
-						<Button title="Statistic" onClick={handleStatistic} />
+						<Button title="Wyloguj" onClick={handleLogout} />
+						<Button title="Statystyka" onClick={handleStatistic} />
 					</div>
 					{isModalVisible && <Statistic onClick={handleStatistic}/>}
 				</>

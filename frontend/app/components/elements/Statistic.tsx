@@ -64,16 +64,16 @@ const Statistic = ({fromTime = threeHoursAgo, toTime = currentTime , amount, onC
 		<div className="absolute w-[99vw] transition-all duration-300 flex flex-col gap-4 items-center justify-center top-[100%] h-screen z-10 bg-black/90">
 			<div className="relative bg-white p-4 rounded-md">
 				<button onClick={onClick} className="absolute top-1 right-2">X</button>
-				<h2 className="text-xl text-center font-bold">Statistic</h2>
-				<p className="text-lg">From {fromTime} to {toTime} arrived {amount} cars.</p>
+				<h2 className="text-xl text-center font-bold">Statystyka</h2>
+				<p className="text-lg">Z {fromTime} do {toTime} przybyło {amount} pojazdów.</p>
 			</div>
 			<div className="relative flex flex-col gap-1 bg-white p-4 rounded-md">
-				<h2 className="text-xl text-center font-bold">Prosrochenia</h2>
+				<h2 className="text-xl text-center font-bold">Przekroczenia</h2>
 				{outdatedInfo.map((car, index) => (
 					<div className="bg-black/75 flex rounded-md gap-3 px-1.5 py-1 text-white  w-full items-center">
-						<p>Plate: {car.plate}</p>
-						<p>Overstay: {car.overstayTime.hours} hours and {car.overstayTime.minutes} minutes</p>
-						<p className="ml-auto">Pay: {car.payment.toFixed(1)}</p>
+						<p>Nr. pojazdu: {car.plate}</p>
+						<p>Przekroczenie: {car.overstayTime.hours} godz i {car.overstayTime.minutes} min.</p>
+						<p className="ml-auto">Cena: {car.payment.toFixed(1)}</p>
 					</div>
 				))}
 			</div>
