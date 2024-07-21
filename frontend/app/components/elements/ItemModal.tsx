@@ -100,11 +100,11 @@ const ItemModal: React.FC<ModalProps> = ({ isVisible, onClose, ticketDetails }: 
 					</>
 				) : (
 					<button className="mt-4 px-4 py-2 bg-green-500 text- rounded" onClick={handleReserve}>
-                       Cofnij
+                       Zarezerwuj
 					</button>
 				)}
 				<button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded" onClick={onClose}>
-                    Close
+                    Cofnij
 				</button>
 			</div>
 		</div>
